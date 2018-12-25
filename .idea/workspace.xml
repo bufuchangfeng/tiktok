@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1556fe26-6220-4b48-afdb-909e27e3546c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -43,13 +42,13 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="dummy" value="4" />
-          <entry key="md" value="21" />
+          <entry key="md" value="40" />
           <entry key="py" value="291" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Markdown" value="21" />
+          <entry key="Markdown" value="40" />
           <entry key="PLAIN_TEXT" value="4" />
           <entry key="Python" value="291" />
         </counts>
@@ -86,7 +85,9 @@
         <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="SPLIT">
-              <first_editor />
+              <first_editor>
+                <caret column="1" lean-forward="true" selection-start-column="1" selection-end-column="1" />
+              </first_editor>
               <second_editor />
             </state>
           </provider>
@@ -127,9 +128,9 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="11" />
-    <option name="y" value="23" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="478" />
+    <option name="y" value="133" />
     <option name="width" value="840" />
     <option name="height" value="979" />
   </component>
@@ -240,10 +241,10 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="9" y="19" width="672" height="783" extended-state="0" />
+    <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.29478827" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.121313676" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -257,7 +258,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info anchor="bottom" id="Terminal" order="11" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" visible="true" weight="0.30311614" />
       <window_info anchor="bottom" id="Python Console" order="12" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -320,7 +321,9 @@
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor />
+          <first_editor>
+            <caret column="1" lean-forward="true" selection-start-column="1" selection-end-column="1" />
+          </first_editor>
           <second_editor />
         </state>
       </provider>
