@@ -1,6 +1,6 @@
 import requests
 from config import SIGN_API, CONFIG
-from params_tools import params2str
+from params_tool import params2str
 
 
 class Sign(object):

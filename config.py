@@ -52,7 +52,7 @@ CONFIG_LIST = {
 }
 
 # 随机版本
-CONFIG = copy.deepcopy(CONFIG_LIST[random.choice(CONFIG_LIST.keys())])
+# CONFIG = copy.deepcopy(CONFIG_LIST[random.choice(CONFIG_LIST.keys())])
 
 # 指定版本
-# CONFIG = CONFIG_LIST['2.7.0']
+CONFIG = CONFIG_LIST['2.9.1']

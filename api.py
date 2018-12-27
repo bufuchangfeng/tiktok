@@ -1,6 +1,14 @@
 import time
 
 
+def user(user_id):
+    url = 'https://aweme.snssdk.com/aweme/v1/user/'
+    extra_params = {
+        "user_id": user_id,
+    }
+    return url, extra_params
+
+
 def following(user_id, count=20, max_time=int(time.time())):
     url = 'https://aweme.snssdk.com/aweme/v1/user/following/list/'
     extra_params = {
