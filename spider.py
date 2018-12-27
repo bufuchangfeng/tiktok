@@ -1,7 +1,6 @@
 import json
 import time
 import api
-import requests
 from sign import Sign
 from config import CONFIG
 

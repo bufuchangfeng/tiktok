@@ -1,5 +1,6 @@
 from urllib.parse import urlparse
 
+
 # 拼装参数
 def params2str(params):
     """
