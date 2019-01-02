@@ -7,7 +7,6 @@ from config import CONFIG
 
 device_info = Sign().getDevice()
 
-
 common_params = {
             "iid": device_info['iid'],
             "idfa": device_info['idfa'],
@@ -155,9 +154,11 @@ def user_followers(target_user_id, target_count=100):
 
 
 def main():
-    print(len(user_detail('99247509232')))
-    print(len(user_followers('99247509232', 20)))
-    print(len(user_followings('99247509232', 20)))
+    detail = json.loads(user_detail('99247509232'))
+
+    print(detail['following_count'])
+
+    user_followings('99247509232', detail['following_count'])
     pass
 
 
