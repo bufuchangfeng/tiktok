@@ -4,6 +4,8 @@ import api
 from sign import Sign
 import requests
 from config import CONFIG
+from queue import Queue
+import os
 
 device_info = Sign().getDevice()
 
@@ -43,7 +45,7 @@ def user_detail(user_id):
     params["ts"] = sign['ts']
 
     resp = requests.get(url, params=params, headers=CONFIG['HEADER']).json()
-    print(json.dumps(resp))
+    # print(json.dumps(resp))
 
     data = resp['user']
     out_data = {
@@ -83,7 +85,7 @@ def user_followings(target_user_id, target_count=100):
         params["ts"] = sign['ts']
 
         resp = requests.get(url, params=params, headers=CONFIG['HEADER']).json()
-        print(json.dumps(resp))
+        # print(json.dumps(resp))
 
         data = resp['followings']
         for item in list(data):
@@ -96,15 +98,16 @@ def user_followings(target_user_id, target_count=100):
 
             print('%s/%s' % (len(out_data['followings']), resp['total']))
 
-            if resp['has_more'] == False or len(resp['followings']) == 0 or len(
+        if resp['has_more'] == False or len(resp['followings']) == 0 or len(
                     out_data['followings']) >= target_count:
-                return
+            return
 
         # 默认30s。如果丢失数据可缩小秒数。如果数据重复可增加秒数。
         next_max_time = resp.get('min_time', int(time.time())) - 30
         get_out_data(next_max_time)
 
     get_out_data()
+
     return json.dumps(out_data)
 
 
@@ -141,9 +144,9 @@ def user_followers(target_user_id, target_count=100):
 
             print('%s/%s' % (len(out_data['followers']), resp['total']))
 
-            if resp['has_more'] == False or len(resp['followers']) == 0 or len(
+        if resp['has_more'] == False or len(resp['followers']) == 0 or len(
                     out_data['followers']) >= target_count:
-                return
+            return
 
         # 默认30s。如果丢失数据可缩小秒数。如果数据重复可增加秒数。
         next_max_time = resp.get('min_time', int(time.time())) - 30
@@ -154,12 +157,52 @@ def user_followers(target_user_id, target_count=100):
 
 
 def main():
-    detail = json.loads(user_detail('99247509232'))
 
-    print(detail['following_count'])
+    q = Queue()
+    l = []
 
-    user_followings('99247509232', detail['following_count'])
-    pass
+    start_user = '57720812347'
+
+    l.append(start_user)
+    q.put(start_user)
+
+    f_edges = open('20155324-node-list-temp.txt', 'w')
+    f_nodes = open('20155324-index-file.txt', 'w')
+
+    while len(l) < 100 and q.empty() is False:
+        target_user = q.get()
+        user_info = json.loads(user_detail(target_user))
+        following_count = user_info['following_count']
+
+        followings = json.loads(user_followings(target_user, following_count))
+
+        for following in followings['followings']:
+            if following['user_id'] not in l:
+                l.append(following['user_id'])
+                q.put(following['user_id'])
+                f_edges.write(target_user + ' ' + following['user_id'] + '\n')
+
+    i = 1
+    for node in l:
+        f_nodes.write('<' + str(i) + ',' + node + '>\n')
+        i += 1
+
+    f_nodes.close()
+    f_edges.close()
+
+    f1 = open('20155324-node-list-temp.txt', 'r')
+    f2 = open('20155324-node-list.txt', 'w')
+
+    for line in f1.readlines():
+        node1 = line.split(' ')[0]
+        node2 = line.split(' ')[1].strip()
+
+        f2.write('<' + str(l.index(node1) + 1) + ',' + str(l.index(node2) + 1) + '>\n')
+
+    f1.close()
+    f2.close()
+
+    os.remove('20155324-node-list-temp.txt')
 
 
 if __name__ == '__main__':
