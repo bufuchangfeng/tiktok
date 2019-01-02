@@ -169,31 +169,18 @@ def main():
     f_edges = open('20155324-node-list-temp.txt', 'w')
     f_nodes = open('20155324-index-file.txt', 'w')
 
-    while len(l) < 50 and q.empty() is False:
+    while len(l) < 100 and q.empty() is False:
         target_user = q.get()
         user_info = json.loads(user_detail(target_user))
         following_count = user_info['following_count']
-
-        if following_count > 100:
-            following_count = 100
 
         followings = json.loads(user_followings(target_user, following_count))
 
         for following in followings['followings']:
             if following['user_id'] not in l:
-
-                print('检查 ' + following['nickname'] + ' 是否符合要求')
-
-                user_info = json.loads(user_detail(following['user_id']))
-
-                follower_count = user_info['follower_count']
-
-                if follower_count >= 5000000:
-                    l.append(following['user_id'])
-                    q.put(following['user_id'])
-                    f_edges.write(target_user + ' ' + following['user_id'] + '\n')
-
-                    print(following['nickname'] + '符合要求')
+                l.append(following['user_id'])
+                q.put(following['user_id'])
+                f_edges.write(target_user + ' ' + following['user_id'] + '\n')
 
     i = 1
     for node in l:
