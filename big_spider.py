@@ -157,7 +157,84 @@ def user_followers(target_user_id, target_count=100):
 
 
 def main():
-    pass
+
+    # q是一个队列，功能类似 图的深度优先遍历 中的队列
+    q = Queue()
+
+    # l是一个集合，可以用python中的set实现，但是list有序，所有选用list
+    l = []
+
+    # 起始用户的user_id
+    start_user = '57720812347'
+
+    l.append(start_user)
+    q.put(start_user)
+
+    f_edges = open('20155324-node-list-temp.txt', 'w')
+    f_nodes = open('20155324-index-file.txt', 'w')
+
+    # l的元素数量 是 图中 节点的数量
+    while len(l) < 50 and q.empty() is False:
+        target_user = q.get()
+
+        # 获取用户关注了谁
+        user_info = json.loads(user_detail(target_user))
+        following_count = user_info['following_count']
+
+        # 当一个用户关注人数超过100时，只取100
+        if following_count > 100:
+            following_count = 100
+
+        print('开始爬取 ' + user_info['nickname'] + ' 关注的用户')
+        followings = json.loads(user_followings(target_user, following_count))
+
+        mat1 = "{:30}"
+
+        for following in followings['followings']:
+
+            if following['user_id'] not in l:
+
+                print(mat1.format('检查 ' + following['nickname'] + ' 粉丝数是否符合要求'), end='')
+
+                user_info = json.loads(user_detail(following['user_id']))
+
+                follower_count = user_info['follower_count']
+
+                # 只有粉丝数大于100 0000 时， 节点才被加入图中
+                if follower_count >= 1000000:
+                    l.append(following['user_id'])
+                    q.put(following['user_id'])
+
+                    # 添加边
+                    f_edges.write(target_user + ' ' + following['user_id'] + '\n')
+
+                    print(following['nickname'] + ' 粉丝数是 ' + str(follower_count) + '                       符合要求')
+                else:
+                    print(following['nickname'] + ' 粉丝数是 ' + str(follower_count) + '                       不符合要求')
+
+        print('\n')
+
+    i = 1
+    for node in l:
+        f_nodes.write('<' + str(i) + ',' + node + '>\n')
+        i += 1
+
+    f_nodes.close()
+    f_edges.close()
+
+    f1 = open('20155324-node-list-temp.txt', 'r')
+    f2 = open('20155324-node-list.txt', 'w')
+
+    for line in f1.readlines():
+        node1 = line.split(' ')[0]
+        node2 = line.split(' ')[1].strip()
+
+        f2.write('<' + str(l.index(node1) + 1) + ',' + str(l.index(node2) + 1) + '>\n')
+
+    f1.close()
+    f2.close()
+
+    os.remove('20155324-node-list-temp.txt')
 
 
 if __name__ == '__main__':
