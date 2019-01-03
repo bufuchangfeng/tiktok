@@ -157,55 +157,7 @@ def user_followers(target_user_id, target_count=100):
 
 
 def main():
-
-    q = Queue()
-    l = []
-
-    start_user = '96143493570'
-
-    l.append(start_user)
-    q.put(start_user)
-
-    f_edges = open('20155324-node-list-temp.txt', 'w')
-    f_nodes = open('20155324-index-file.txt', 'w')
-
-    while len(l) < 300 and q.empty() is False:
-        target_user = q.get()
-        user_info = json.loads(user_detail(target_user))
-        following_count = user_info['following_count']
-
-        if following_count > 50:
-            following_count = 50
-
-        followings = json.loads(user_followings(target_user, following_count))
-
-        for following in followings['followings']:
-            if following['user_id'] not in l:
-                l.append(following['user_id'])
-                q.put(following['user_id'])
-                f_edges.write(target_user + ' ' + following['user_id'] + '\n')
-
-    i = 1
-    for node in l:
-        f_nodes.write('<' + str(i) + ',' + node + '>\n')
-        i += 1
-
-    f_nodes.close()
-    f_edges.close()
-
-    f1 = open('20155324-node-list-temp.txt', 'r')
-    f2 = open('20155324-node-list.txt', 'w')
-
-    for line in f1.readlines():
-        node1 = line.split(' ')[0]
-        node2 = line.split(' ')[1].strip()
-
-        f2.write('<' + str(l.index(node1) + 1) + ',' + str(l.index(node2) + 1) + '>\n')
-
-    f1.close()
-    f2.close()
-
-    os.remove('20155324-node-list-temp.txt')
+    pass
 
 
 if __name__ == '__main__':

@@ -17,7 +17,7 @@ for line in f.readlines():
 
 f.close()
 
-networkx.draw(G, node_color='red', edge_color='black', font_size=20, node_size =300, width=1, with_labels=True)
+networkx.draw(G, node_color='green', edge_color='red', font_size=20, node_size =300, width=1, with_labels=False)
 
 plt.savefig('temp.png',bbox_inches='tight')
 
