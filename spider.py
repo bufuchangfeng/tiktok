@@ -169,7 +169,7 @@ def main():
     f_edges = open('20155324-node-list-temp.txt', 'w')
     f_nodes = open('20155324-index-file.txt', 'w')
 
-    while len(l) < 50 and q.empty() is False:
+    while len(l) < 10 and q.empty() is False:
         target_user = q.get()
         user_info = json.loads(user_detail(target_user))
         following_count = user_info['following_count']

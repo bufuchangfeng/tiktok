@@ -12,12 +12,12 @@ for line in f.readlines():
     node1 = line.split(',')[0]
     node2 = line.split(',')[1].split('>')[0]
 
-    print(node1, node2)
+    # print(node1, node2)
     G.add_edge(node1, node2)
 
 f.close()
 
-networkx.draw(G, node_color='red', edge_color='black', font_size=20, node_size =300, width=1, with_labels=False)
+networkx.draw(G, node_color='red', edge_color='black', font_size=20, node_size =300, width=1, with_labels=True)
 
 plt.savefig('temp.png',bbox_inches='tight')
 

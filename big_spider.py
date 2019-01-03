@@ -9,6 +9,8 @@ import os
 
 device_info = Sign().getDevice()
 
+node_count = 200
+
 common_params = {
             "iid": device_info['iid'],
             "idfa": device_info['idfa'],
@@ -158,23 +160,28 @@ def user_followers(target_user_id, target_count=100):
 
 def main():
 
-    # q是一个队列，功能类似 图的深度优先遍历 中的队列
+    # q是一个队列，功能类似 图的广度优先遍历 中的队列
     q = Queue()
 
     # l是一个集合，可以用python中的set实现，但是list有序，所有选用list
     l = []
 
+    nickname_list = []
+
     # 起始用户的user_id
     start_user = '57720812347'
+    start_nickname = '莉哥o3o'
 
     l.append(start_user)
     q.put(start_user)
+    nickname_list.append(start_nickname)
 
     f_edges = open('20155324-node-list-temp.txt', 'w')
     f_nodes = open('20155324-index-file.txt', 'w')
+    f_nickname = open('20155324-nickname-file', 'wb')
 
     # l的元素数量 是 图中 节点的数量
-    while len(l) < 50 and q.empty() is False:
+    while len(l) < node_count and q.empty() is False:
         target_user = q.get()
 
         # 获取用户关注了谁
@@ -188,13 +195,14 @@ def main():
         print('开始爬取 ' + user_info['nickname'] + ' 关注的用户')
         followings = json.loads(user_followings(target_user, following_count))
 
-        mat1 = "{:30}"
+        mat = "{:30}"
 
         for following in followings['followings']:
 
+            # 如果被关注的用户不在集合中，则需要检查被关注的用户粉丝数量是否超过100 0000，超过100 0000才能添加进图中，并添加 当前节点 和 被关注的用户 之间的边
             if following['user_id'] not in l:
 
-                print(mat1.format('检查 ' + following['nickname'] + ' 粉丝数是否符合要求'), end='')
+                print(mat.format('检查 ' + following['nickname'] + ' 粉丝数是否符合要求'), end='')
 
                 user_info = json.loads(user_detail(following['user_id']))
 
@@ -202,15 +210,19 @@ def main():
 
                 # 只有粉丝数大于100 0000 时， 节点才被加入图中
                 if follower_count >= 1000000:
+                    nickname_list.append(following['nickname'])
                     l.append(following['user_id'])
                     q.put(following['user_id'])
+                    print(following['nickname'] + ' 粉丝数是 ' + str(follower_count) + '                       符合要求')
 
                     # 添加边
                     f_edges.write(target_user + ' ' + following['user_id'] + '\n')
-
-                    print(following['nickname'] + ' 粉丝数是 ' + str(follower_count) + '                       符合要求')
                 else:
                     print(following['nickname'] + ' 粉丝数是 ' + str(follower_count) + '                       不符合要求')
+
+            # 如果被关注的用户在集合中，则直接添加 当前节点 和 被关注的用户 之间 的 边 即可
+            else:
+                f_edges.write(target_user + ' ' + following['user_id'] + '\n')
 
         print('\n')
 
@@ -219,6 +231,12 @@ def main():
         f_nodes.write('<' + str(i) + ',' + node + '>\n')
         i += 1
 
+    i = 1
+    for node in nickname_list:
+        f_nickname.write((str(i) + ' ' + node + '\n').encode())
+        i += 1
+
+    f_nickname.close()
     f_nodes.close()
     f_edges.close()
 
