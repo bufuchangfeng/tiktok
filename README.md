@@ -7,3 +7,4 @@
 ## 关于爬虫文件
 * spider.py 速度慢 定义了规则
 * old_spider.py 速度快 
+* big_spider.py 速度快 定义了规则
